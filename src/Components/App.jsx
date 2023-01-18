@@ -1,50 +1,57 @@
 import React, { Component } from "react";
-import axios from "axios";
+import { Button } from "reactstrap";
 import { API_URL } from "../Constants";
-import Home from "./Home";
+import Container from "./Container";
 
 class App extends Component {
     state = {
         isLoggedIn: false,
-        currentMenu: "",
+        currentMenu: "Home",
+        response: null,
     };
 
     setCurrentMenu(url, new_menu) {
-        currentMenu = new_menu;
+        this.setState(() => {
+            return { currentMenu: new_menu };
+        });
     }
 
     render() {
         return (
-            <>
+            <div>
                 <h1>Shopping List</h1>
                 <div className="menu">
-                    <button
-                        type="submit"
-                        value="Home"
-                        onClick={setCurrentMenu(API_URL, "Home")}
-                    />
+                    <Button
+                        onClick={() => this.setCurrentMenu(API_URL, "Home")}
+                    >
+                        Home
+                    </Button>
                     <br />
-                    <button
-                        type="submit"
-                        value="Checklists"
-                        onClick={setCurrentMenu(
-                            API_URL + "checklists/",
-                            "Checklists"
-                        )}
-                    />
+                    <Button
+                        onClick={() =>
+                            this.setCurrentMenu(
+                                `${API_URL}checklists/`,
+                                "Checklists"
+                            )
+                        }
+                    >
+                        Checklists
+                    </Button>
                     <br />
-                    <button
-                        type="submit"
-                        value="Profile"
-                        onClick={setCurrentMenu(API_URL + "me/", "Profile")}
-                    />
+                    <Button
+                        onClick={() =>
+                            this.setCurrentMenu(`${API_URL}me/`, "Profile")
+                        }
+                    >
+                        Profile
+                    </Button>
                     <br />
                 </div>
-                <div className="container">
-                    if (this.state.currentMenu == "Home")
-                    {<Home isLoggedIn={this.state.isLoggedIn} />}
-                </div>
-            </>
+                <Container
+                    isLoggedIn={this.state.isLoggedIn}
+                    currentMenu={this.state.currentMenu}
+                />
+            </div>
         );
     }
 }
