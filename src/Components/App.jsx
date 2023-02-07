@@ -1,59 +1,59 @@
-import React, { Component } from "react";
-import { Button } from "reactstrap";
-import { API_URL } from "../Constants";
-import Container from "./Container";
+import { useState } from "react";
+import axios from "axios";
 
-class App extends Component {
-    state = {
-        isLoggedIn: false,
-        currentMenu: "Home",
-        response: null,
+import { API_URL } from "../Constants";
+import "../Styles/index.css";
+import Logo from "./Logo";
+import Navbar from "./Navbar";
+import Home from "./Home";
+import LoginForm from "./LoginForm";
+
+function App() {
+    const [isLoggedIn, setIsLoggedIn] = useState(true);
+    const [menu, setMenu] = useState(<Home />);
+
+    const changeMenu = (newMenu) => {
+        setMenu(newMenu);
     };
 
-    setCurrentMenu(url, new_menu) {
-        this.setState(() => {
-            return { currentMenu: new_menu };
-        });
-    }
+    const handleRegister = (data) => {
+        console.log("Register");
+    };
 
-    render() {
-        return (
-            <div>
-                <h1>Shopping List</h1>
-                <div className="menu">
-                    <Button
-                        onClick={() => this.setCurrentMenu(API_URL, "Home")}
-                    >
-                        Home
-                    </Button>
-                    <br />
-                    <Button
-                        onClick={() =>
-                            this.setCurrentMenu(
-                                `${API_URL}checklists/`,
-                                "Checklists"
-                            )
-                        }
-                    >
-                        Checklists
-                    </Button>
-                    <br />
-                    <Button
-                        onClick={() =>
-                            this.setCurrentMenu(`${API_URL}me/`, "Profile")
-                        }
-                    >
-                        Profile
-                    </Button>
-                    <br />
-                </div>
-                <Container
-                    isLoggedIn={this.state.isLoggedIn}
-                    currentMenu={this.state.currentMenu}
-                />
-            </div>
-        );
-    }
+    const handleLogin = (event) => {
+        event.preventDefault();
+        if (!isLoggedIn) {
+            handleRegister(event.data);
+            return;
+        }
+        axios
+            .post(`${API_URL}auth/jwt/create`, event.data)
+            .then((res) => {
+                if (res.status === 200) {
+                    console.log(res.data["access"]);
+                    // setIsLoggedIn(true);
+                }
+                console.log(res.status);
+            })
+            .catch((res) => console.log(res.status));
+        return;
+    };
+
+    const loginForm = () => {
+        if (isLoggedIn) {
+            return <></>;
+        }
+        return <LoginForm handleLogin={handleLogin} />;
+    };
+
+    return (
+        <div className="App">
+            <Logo />
+            <Navbar changeMenu={changeMenu} isLoggedIn={isLoggedIn} />
+            <div className="content">{menu}</div>
+            {loginForm()}
+        </div>
+    );
 }
 
 export default App;

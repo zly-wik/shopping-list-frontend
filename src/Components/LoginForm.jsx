@@ -1,72 +1,56 @@
-import React, { Component } from "react";
-import { Form, Button, Label, Input, FormGroup } from "reactstrap";
+import { useState } from "react";
+import { Button, Form, Input } from "reactstrap";
 
-class LoginForm extends Component {
-    state = {
-        email: "",
-        username: "",
-        password: "",
-        isLogin: false,
+function LoginForm({ handleLogin }) {
+    const [isLogin, setIsLogin] = useState(true);
+
+    const switchLoginRegister = (login) => {
+        setIsLogin(login);
     };
 
-    onChange = (e) => {
-        this.setState({ [e.target.name]: e.target.value });
-    };
-
-    submit = (e) => {
-        e.preventDefault();
-    };
-
-    switchLoginRegister() {
-        var current = this.state.isLogin;
-        this.setState(() => {
-            return { isLogin: !current };
-        });
-    }
-
-    render() {
-        var registerButton = this.state.isLogin ? (
-            <Button onClick={() => this.switchLoginRegister()}>Register</Button>
-        ) : (
-            <Button onClick={() => this.switchLoginRegister()}>Login</Button>
+    const renderForm = () => {
+        const registerForm = (
+            <Input type="email" name="email" placeholder="email" />
         );
 
-        var login = (
-            <FormGroup>
-                <Label for="username">Username:</Label>
-                <Input type="text" name="username" onChange={this.onChange} />
-
-                <Label for="password">Password:</Label>
-                <Input
-                    type="password"
-                    name="password"
-                    onChange={this.onChange}
-                />
-                <Button type="submit">Login</Button>
-            </FormGroup>
-        );
-
-        var form = this.state.isLogin ? (
-            <>{login}</>
-        ) : (
+        const loginForm = (
             <>
-                <FormGroup>
-                    <Label for="email">Email:</Label>
-                    <Input type="text" name="email" onChange={this.onChange} />
-                </FormGroup>
-                {login}
+                <Input name="username" placeholder="username" />
+                <Input type="password" name="password" placeholder="password" />
             </>
         );
 
-        return (
+        const form = (
             <>
-                {registerButton}
-                <div className="login-form">
-                    <Form onSubmit={this.submit}>{form}</Form>
-                </div>
+                {isLogin ? (
+                    loginForm
+                ) : (
+                    <>
+                        {registerForm}
+                        {loginForm}
+                    </>
+                )}
+                <Button type="submit">{isLogin ? "LogIn" : "Register"}</Button>
             </>
         );
-    }
+
+        return form;
+    };
+
+    return (
+        <>
+            <div className="content">Login to access your shopping lists.</div>
+            <div className="login-form">
+                <Button onClick={() => switchLoginRegister(true)}>Login</Button>
+                <Button onClick={() => switchLoginRegister(false)}>
+                    Register
+                </Button>
+                <Form onSubmit={(form) => handleLogin(form.data)}>
+                    {renderForm()}
+                </Form>
+            </div>
+        </>
+    );
 }
 
 export default LoginForm;

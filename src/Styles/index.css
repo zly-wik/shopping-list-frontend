@@ -1,0 +1,79 @@
+* {
+    background-color: darkgreen;
+    color: azure;
+}
+
+.logo
+{
+    margin-top: 10px;
+    margin-left: 20px;
+    font-size: 36px;
+    color: azure;
+    font-weight: bolder;
+}
+
+.menu
+{
+    margin: auto;
+}
+
+.menu-button
+{
+    float: left;
+    text-decoration: none;
+    text-align: center;
+    font-size: large;
+    font-weight: bold;
+    color: azure;
+    background-color:darkolivegreen;
+    padding: 15px;
+    margin-top: 30px;
+    margin-right: 50px;
+    width: 200px;
+    border: thick double #022f09;;
+}
+
+.menu-button:hover
+{
+    float: left;
+    text-decoration: none;
+    text-align: center;
+    font-size: large;
+    font-weight: bold;
+    color: rgb(210, 236, 236);
+    background-color:rgb(51, 107, 47);
+    padding: 15px;
+    margin-top: 30px;
+    margin-right: 50px;
+    width: 200px;
+    border: thick double #022f09;;
+}
+
+.content
+{
+    margin: auto;
+    margin-top: 30px;
+    text-align: center;
+    font-size: medium;
+}
+
+.login-form
+{
+    text-align: left;
+    border: thick solid #022f09;
+    padding: 15px;
+    width: 600px;
+    margin: auto;
+    margin-top: 30px;
+}
+
+.small-text
+{
+    font-size: small;
+}
+
+.shopping-lists {
+    margin: auto;
+    width: 750px;
+    text-align: left;
+}
