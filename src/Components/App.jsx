@@ -1,5 +1,6 @@
 import { useState } from "react";
 import axios from "axios";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
 import { API_URL } from "../Constants";
 import "../Styles/index.css";
@@ -7,14 +8,10 @@ import Logo from "./Logo";
 import Navbar from "./Navbar";
 import Home from "./Home";
 import LoginForm from "./LoginForm";
+import ShoppingLists from "./ShoppingLists";
 
 function App() {
     const [isLoggedIn, setIsLoggedIn] = useState(true);
-    const [menu, setMenu] = useState(<Home />);
-
-    const changeMenu = (newMenu) => {
-        setMenu(newMenu);
-    };
 
     const handleRegister = (data) => {
         console.log("Register");
@@ -47,12 +44,24 @@ function App() {
     };
 
     return (
-        <div className="App">
-            <Logo />
-            <Navbar changeMenu={changeMenu} isLoggedIn={isLoggedIn} />
-            <div className="content">{menu}</div>
-            {loginForm()}
-        </div>
+        <Router>
+            <div className="App">
+                <Logo />
+                <Navbar />
+                <div className="content">
+                    <Routes>
+                        <Route exact path="/" element={<Home />} />
+                        <Route
+                            exact
+                            path="/shoppinglists"
+                            element={<ShoppingLists />}
+                        />
+                        {/* /me endpoint */}
+                    </Routes>
+                </div>
+                {loginForm()}
+            </div>
+        </Router>
     );
 }
 

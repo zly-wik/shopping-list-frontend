@@ -1,40 +1,18 @@
-import { Button } from "reactstrap";
-import Home from "./Home";
-import ShoppingLists from "./ShoppingLists";
-import Profile from "./Profile";
+import { Link } from "react-router-dom";
 
-function Navbar(props) {
+function Navbar() {
     return (
         <nav className="navbar">
             <div className="menu">
-                <Button
-                    className="menu-button"
-                    onClick={() =>
-                        props.changeMenu(<Home isLoggedIn={props.isLoggedIn} />)
-                    }
-                >
+                <Link className="menu-button" to="/">
                     Home
-                </Button>
-                <Button
-                    className="menu-button"
-                    onClick={() =>
-                        props.changeMenu(
-                            <ShoppingLists isLoggedIn={props.isLoggedIn} />
-                        )
-                    }
-                >
+                </Link>
+                <Link className="menu-button" to="/shoppinglists">
                     Lists
-                </Button>
-                <Button
-                    className="menu-button"
-                    onClick={() =>
-                        props.changeMenu(
-                            <Profile isLoggedIn={props.isLoggedIn} />
-                        )
-                    }
-                >
+                </Link>
+                <Link className="menu-button" to="/me">
                     My Profile
-                </Button>
+                </Link>
             </div>
         </nav>
     );

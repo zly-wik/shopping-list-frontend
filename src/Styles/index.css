@@ -77,3 +77,8 @@
     width: 750px;
     text-align: left;
 }
+
+.error {
+    color: red;
+    font-size: large;
+}

@@ -4,13 +4,13 @@ import { API_URL } from "../Constants";
 
 const useFetch = (endpoint) => {
     const [data, setData] = useState(null);
-    const [status, setStatus] = useState(null);
+    const [isPending, setIsPending] = useState(true);
+    const [error, setError] = useState(null);
 
     useEffect(() => {
         axios
-            .get(API_URL + endpoint)
+            .get(`${API_URL}${endpoint}`)
             .then((res) => {
-                setStatus(res.status);
                 if (res.status !== 200) {
                     throw Error("Failed to fetch data");
                 }
@@ -18,13 +18,16 @@ const useFetch = (endpoint) => {
             })
             .then((data) => {
                 setData(data);
+                setIsPending(false);
+                setError(null);
             })
             .catch((err) => {
-                console.log(err.message);
+                setIsPending(false);
+                setError(`Error loading data: ${err.message}`);
             });
-    }, []);
+    }, [endpoint]);
 
-    return { data, status };
+    return { data, setData, isPending, error };
 };
 
 export default useFetch;
