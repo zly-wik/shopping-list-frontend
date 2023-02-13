@@ -1,11 +1,14 @@
+import { useEffect, useState } from "react";
+import { Button } from "reactstrap";
 import axios from "axios";
 import { API_URL } from "../Constants";
-import { useState } from "react";
 import useFetch from "../Hooks/useFetch";
+import CreateListForm from "./CreateListForm";
 
 function ShoppingLists() {
     const { data, setData, isPending, error } = useFetch("/checklists");
     const [requestError, setRequestError] = useState(null);
+    const [creating, setCreating] = useState(false);
     // const [lists, setLists] = useState([
     //     { id: 1, title: "ShoppingList 1", items: ["Eggs", "Milk"] },
     //     { id: 2, title: "List 2", items: ["i1", "i2", "i3", "aaa", "bbb"] },
@@ -27,6 +30,13 @@ function ShoppingLists() {
             });
     };
 
+    const updateAfterCreate = (new_item) => {
+        setCreating(false);
+
+        const newData = [...data, new_item];
+        setData(newData);
+    };
+
     const renderList = () => {
         return data.map((item) => (
             <div className="list-item" key={item.id}>
@@ -46,7 +56,22 @@ function ShoppingLists() {
                 <br />
                 {!isPending && requestError}
             </div>
-            {!isPending && !error && renderList()}
+            {!creating && !isPending && !error && (
+                <>
+                    <p>Your shopping lists:</p>
+                    <Button onClick={() => setCreating(true)}>
+                        Create New
+                    </Button>
+                    {renderList()}
+                </>
+            )}
+            {creating && (
+                <>
+                    <CreateListForm
+                        onComplete={(new_item) => updateAfterCreate(new_item)}
+                    />
+                </>
+            )}
         </div>
     );
 }
