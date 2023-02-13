@@ -1,6 +1,6 @@
 import axios from "axios";
 import { API_URL } from "../Constants";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import useFetch from "../Hooks/useFetch";
 
 function ShoppingLists() {

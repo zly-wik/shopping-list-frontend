@@ -9,7 +9,11 @@ const useFetch = (endpoint) => {
 
     useEffect(() => {
         axios
-            .get(`${API_URL}${endpoint}`)
+            .get(`${API_URL}${endpoint}`, {
+                headers: {
+                    Authorization: sessionStorage.getItem("access"),
+                },
+            })
             .then((res) => {
                 if (res.status !== 200) {
                     throw Error("Failed to fetch data");
@@ -23,7 +27,7 @@ const useFetch = (endpoint) => {
             })
             .catch((err) => {
                 setIsPending(false);
-                setError(`Error loading data: ${err.message}`);
+                setError(`Failed to fetch the data: ${err.message}`);
             });
     }, [endpoint]);
 

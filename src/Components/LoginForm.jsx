@@ -1,8 +1,26 @@
 import { useState } from "react";
 import { Button, Form, Input } from "reactstrap";
+import axios from "axios";
 
-function LoginForm({ handleLogin }) {
+import { API_URL, csrfToken } from "../Constants";
+
+function LoginForm({ onLoginSuccess }) {
     const [isLogin, setIsLogin] = useState(true);
+
+    const loginRequest = (event) => {
+        event.preventDefault();
+        let data = {
+            username: event.target.elements.username.value,
+            password: event.target.elements.password.value,
+        };
+
+        axios.post(`${API_URL}auth/jwt/create`, data).then((res) => {
+            if (res.status === 200) {
+                sessionStorage.setItem("access", "JWT " + res.data.access);
+                onLoginSuccess(true);
+            }
+        });
+    };
 
     const switchLoginRegister = (login) => {
         setIsLogin(login);
@@ -45,7 +63,8 @@ function LoginForm({ handleLogin }) {
                 <Button onClick={() => switchLoginRegister(false)}>
                     Register
                 </Button>
-                <Form onSubmit={(form) => handleLogin(form.data)}>
+                <Form onSubmit={loginRequest}>
+                    <input type="hidden" name="_token" value={csrfToken} />
                     {renderForm()}
                 </Form>
             </div>
