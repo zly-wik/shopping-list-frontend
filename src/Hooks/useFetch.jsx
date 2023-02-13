@@ -9,11 +9,7 @@ const useFetch = (endpoint) => {
 
     useEffect(() => {
         axios
-            .get(`${API_URL}${endpoint}`, {
-                headers: {
-                    Authorization: sessionStorage.getItem("access"),
-                },
-            })
+            .get(`${API_URL}${endpoint}`)
             .then((res) => {
                 if (res.status !== 200) {
                     throw Error("Failed to fetch data");
