@@ -1,14 +1,17 @@
-import { useEffect, useState } from "react";
-import { Button } from "reactstrap";
+import { useState } from "react";
+import { Button, Input } from "reactstrap";
 import axios from "axios";
 import { API_URL } from "../Constants";
 import useFetch from "../Hooks/useFetch";
 import CreateListForm from "./CreateListForm";
+import { Link } from "react-router-dom";
 
 function ShoppingLists() {
     const { data, setData, isPending, error } = useFetch("/checklists");
     const [requestError, setRequestError] = useState(null);
     const [creating, setCreating] = useState(false);
+    const [editingId, setEditingId] = useState(null);
+    const [editedValue, setEditedValue] = useState("");
     // const [lists, setLists] = useState([
     //     { id: 1, title: "ShoppingList 1", items: ["Eggs", "Milk"] },
     //     { id: 2, title: "List 2", items: ["i1", "i2", "i3", "aaa", "bbb"] },
@@ -30,6 +33,42 @@ function ShoppingLists() {
             });
     };
 
+    const startEditing = (id) => {
+        setEditingId(id);
+    };
+
+    const updateRequest = () => {
+        axios
+            .put(`${API_URL}checklists/${editingId}/`, { title: editedValue })
+            .then((res) => {
+                if (res.status === 200) {
+                    const newData = data.map((item) => {
+                        if (item.id === editingId) {
+                            const updatedItem = {
+                                ...item,
+                                title: editedValue,
+                            };
+                            return updatedItem;
+                        }
+                        return item;
+                    });
+
+                    setData(newData);
+                }
+
+                setEditingId(null);
+                setEditedValue("");
+            })
+            .catch((error) => {
+                setEditingId(null);
+                setEditedValue("");
+            });
+    };
+
+    const handleChange = (event) => {
+        setEditedValue(event.target.value);
+    };
+
     const updateAfterCreate = (new_item) => {
         setCreating(false);
 
@@ -40,9 +79,46 @@ function ShoppingLists() {
     const renderList = () => {
         return data.map((item) => (
             <div className="list-item" key={item.id}>
-                <button onClick={() => handleDelete(item.id)}>Delete</button>
-                &nbsp;
-                {item.title}
+                {editingId === item.id ? (
+                    <>
+                        <Input
+                            bsSize="sm"
+                            type="text"
+                            defaultValue={item.title}
+                            onChange={handleChange}
+                        />
+                        <Button
+                            size="sm"
+                            color="primary"
+                            onClick={updateRequest}
+                        >
+                            Update
+                        </Button>
+                    </>
+                ) : (
+                    <>
+                        <Link className="details-link" to={item.id + "/"}>
+                            {item.title}
+                        </Link>
+                        &nbsp;
+                        <Button
+                            color="info"
+                            size="sm"
+                            onClick={() => startEditing(item.id)}
+                        >
+                            Edit
+                        </Button>
+                        &nbsp;
+                        <Button
+                            color="danger"
+                            size="sm"
+                            onClick={() => handleDelete(item.id)}
+                        >
+                            Delete
+                        </Button>
+                    </>
+                )}
+                &nbsp; &nbsp;
                 <div className="small-text">Items: {item.items.length}</div>
                 <br />
             </div>
@@ -58,10 +134,12 @@ function ShoppingLists() {
             </div>
             {!creating && !isPending && !error && (
                 <>
-                    <p>Your shopping lists:</p>
+                    <h3>Your shopping lists:</h3>
                     <Button onClick={() => setCreating(true)}>
                         Create New
                     </Button>
+                    <br />
+                    <br />
                     {renderList()}
                 </>
             )}

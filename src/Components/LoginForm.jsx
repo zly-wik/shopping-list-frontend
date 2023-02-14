@@ -7,8 +7,28 @@ import { API_URL, csrfToken } from "../Constants";
 function LoginForm({ onLoginSuccess }) {
     const [isLogin, setIsLogin] = useState(true);
 
+    const registerRequest = (event) => {
+        event.preventDefault();
+
+        let data = {
+            email: event.target.elements.email.value,
+            username: event.target.elements.username.value,
+            password: event.target.elements.password.value,
+        };
+        axios.post(`${API_URL}auth/users/`, data).then((res) => {
+            if (res.status === 201) {
+                alert("Account created");
+            }
+        });
+    };
+
     const loginRequest = (event) => {
         event.preventDefault();
+        if (!isLogin) {
+            registerRequest(event);
+            return;
+        }
+
         let data = {
             username: event.target.elements.username.value,
             password: event.target.elements.password.value,
@@ -59,8 +79,19 @@ function LoginForm({ onLoginSuccess }) {
         <>
             <div className="content">Login to access your shopping lists.</div>
             <div className="login-form">
-                <Button onClick={() => switchLoginRegister(true)}>Login</Button>
-                <Button onClick={() => switchLoginRegister(false)}>
+                <Button
+                    color="primary"
+                    onClick={() => switchLoginRegister(true)}
+                    active
+                >
+                    Login
+                </Button>
+                &nbsp;
+                <Button
+                    color="secondary"
+                    onClick={() => switchLoginRegister(false)}
+                    active
+                >
                     Register
                 </Button>
                 <Form onSubmit={loginRequest}>

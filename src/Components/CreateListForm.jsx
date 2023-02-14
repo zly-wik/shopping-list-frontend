@@ -29,7 +29,6 @@ const CreateListForm = ({ onComplete }) => {
         <>
             <Form onSubmit={handleSubmit}>
                 <input type="hidden" name="_token" value={csrfToken} />
-                <Label for="title">Title</Label>
                 <Input
                     type="text"
                     className="title"

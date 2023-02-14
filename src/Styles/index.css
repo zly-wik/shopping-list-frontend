@@ -55,12 +55,13 @@
     margin-top: 30px;
     text-align: center;
     font-size: medium;
+    width: 750px;
 }
 
 .login-form
 {
     text-align: left;
-    border: thick solid #022f09;
+    border: thick solid #032e09;
     padding: 15px;
     width: 600px;
     margin: auto;
@@ -74,11 +75,29 @@
 
 .shopping-lists {
     margin: auto;
-    width: 750px;
+    
     text-align: left;
 }
 
 .error {
     color: red;
     font-size: large;
+}
+
+.details-link {
+    color: white;
+    text-decoration: none;
+    border-bottom: solid #032e09;
+    padding: 2px;
+}
+
+.details-link:hover {
+    color: #032e09;
+    text-decoration: none;
+    border-bottom: solid #032e09;
+    padding: 2px;
+}
+
+.list-item {
+    padding: 5px;
 }

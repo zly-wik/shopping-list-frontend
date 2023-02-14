@@ -8,6 +8,7 @@ import Navbar from "./Navbar";
 import Home from "./Home";
 import LoginForm from "./LoginForm";
 import ShoppingLists from "./ShoppingLists";
+import ListDetails from "./ListDetails";
 
 function App() {
     const [isLoggedIn, setIsLoggedIn] = useState(
@@ -35,6 +36,11 @@ function App() {
                             element={<ShoppingLists />}
                         />
                         {/* /me endpoint */}
+                        <Route
+                            exact
+                            path={`/shoppinglists/:id`}
+                            element={<ListDetails />}
+                        />
                     </Routes>
                 </div>
                 {loginForm()}
