@@ -6,6 +6,7 @@ import { API_URL, csrfToken } from "../Constants";
 
 function LoginForm({ onLoginSuccess }) {
     const [isLogin, setIsLogin] = useState(true);
+    const [requestError, setRequestError] = useState(null);
 
     const registerRequest = (event) => {
         event.preventDefault();
@@ -15,11 +16,17 @@ function LoginForm({ onLoginSuccess }) {
             username: event.target.elements.username.value,
             password: event.target.elements.password.value,
         };
-        axios.post(`${API_URL}auth/users/`, data).then((res) => {
-            if (res.status === 201) {
-                alert("Account created");
-            }
-        });
+        axios
+            .post(`${API_URL}auth/users/`, data)
+            .then((res) => {
+                if (res.status === 201) {
+                    setRequestError(null);
+                    alert("Account created");
+                }
+            })
+            .catch((err) => {
+                setRequestError(err.message);
+            });
     };
 
     const loginRequest = (event) => {
@@ -34,12 +41,18 @@ function LoginForm({ onLoginSuccess }) {
             password: event.target.elements.password.value,
         };
 
-        axios.post(`${API_URL}auth/jwt/create`, data).then((res) => {
-            if (res.status === 200) {
-                sessionStorage.setItem("access", "JWT " + res.data.access);
-                onLoginSuccess(true);
-            }
-        });
+        axios
+            .post(`${API_URL}auth/jwt/create`, data)
+            .then((res) => {
+                if (res.status === 200) {
+                    setRequestError(null);
+                    sessionStorage.setItem("access", "JWT " + res.data.access);
+                    onLoginSuccess(true);
+                }
+            })
+            .catch((err) => {
+                setRequestError(err.message);
+            });
     };
 
     const switchLoginRegister = (login) => {
@@ -77,7 +90,10 @@ function LoginForm({ onLoginSuccess }) {
 
     return (
         <>
-            <div className="content">Login to access your shopping lists.</div>
+            <div className="content">
+                Login to access your shopping lists.
+                <div className="error">{requestError}</div>
+            </div>
             <div className="login-form">
                 <Button
                     color="primary"
