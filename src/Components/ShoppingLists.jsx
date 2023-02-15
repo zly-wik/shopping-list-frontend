@@ -8,6 +8,11 @@ import { Link } from "react-router-dom";
 
 function ShoppingLists() {
     const { data, setData, isPending, error } = useFetch("/checklists");
+    const {
+        data: userProfileData,
+        isPending: userProfilePending,
+        error: userProfileError,
+    } = useFetch("/me");
     const [requestError, setRequestError] = useState(null);
     const [creating, setCreating] = useState(false);
     const [editingId, setEditingId] = useState(null);
@@ -17,6 +22,10 @@ function ShoppingLists() {
     //     { id: 2, title: "List 2", items: ["i1", "i2", "i3", "aaa", "bbb"] },
     //     { id: 3, title: "Test", items: [] },
     // ]);
+
+    const maxLists = (profile_level) => {
+        return profile_level === "VIP" ? 5 : 3;
+    };
 
     const handleDelete = (id) => {
         axios
@@ -135,10 +144,31 @@ function ShoppingLists() {
             {!creating && !isPending && !error && (
                 <>
                     <h3>Your shopping lists:</h3>
-                    <Button onClick={() => setCreating(true)}>
-                        Create New
-                    </Button>
+
+                    {!userProfilePending &&
+                        !userProfileError &&
+                        !isPending &&
+                        !error &&
+                        "Shopping lists: " +
+                            data.length +
+                            " / " +
+                            (userProfileData.profile_level === "VIP"
+                                ? "5"
+                                : "3")}
                     <br />
+                    {!userProfilePending &&
+                        !userProfileError &&
+                        !isPending &&
+                        !error &&
+                        data.length <
+                            maxLists(userProfileData.profile_level) && (
+                            <>
+                                <Button onClick={() => setCreating(true)}>
+                                    Create New
+                                </Button>
+                                <br />
+                            </>
+                        )}
                     <br />
                     {renderList()}
                 </>
