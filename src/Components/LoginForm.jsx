@@ -94,7 +94,7 @@ function LoginForm({ onLoginSuccess }) {
                 Login to access your shopping lists.
                 <div className="error">{requestError}</div>
             </div>
-            <div className="login-form">
+            <div className="col-6 col-s-12 login-form">
                 <Button
                     color="primary"
                     onClick={() => switchLoginRegister(true)}

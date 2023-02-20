@@ -10,6 +10,7 @@ import LoginForm from "./LoginForm";
 import ShoppingLists from "./ShoppingLists";
 import ListDetails from "./ListDetails";
 import UserProfile from "./UserProfile";
+import { setSelectionRange } from "@testing-library/user-event/dist/utils";
 
 function App() {
     const [isLoggedIn, setIsLoggedIn] = useState(
@@ -27,7 +28,9 @@ function App() {
         <Router>
             <div className="App">
                 <Logo />
+
                 <Navbar />
+
                 {!isLoggedIn && loginForm()}
                 {isLoggedIn && (
                     <div className="content">
@@ -38,7 +41,17 @@ function App() {
                                 path="/shoppinglists"
                                 element={<ShoppingLists />}
                             />
-                            <Route exact path="/me" element={<UserProfile />} />
+                            <Route
+                                exact
+                                path="/me"
+                                element={
+                                    <UserProfile
+                                        logoutCallback={() =>
+                                            setIsLoggedIn(false)
+                                        }
+                                    />
+                                }
+                            />
                             <Route
                                 exact
                                 path={`/shoppinglists/:id`}

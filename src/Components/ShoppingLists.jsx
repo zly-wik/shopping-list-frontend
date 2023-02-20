@@ -91,6 +91,7 @@ function ShoppingLists() {
                 {editingId === item.id ? (
                     <>
                         <Input
+                            className="input-field"
                             bsSize="sm"
                             type="text"
                             defaultValue={item.title}
@@ -111,7 +112,8 @@ function ShoppingLists() {
                         </Link>
                         &nbsp;
                         <Button
-                            color="info"
+                            color="primary"
+                            className="btn-edit"
                             size="sm"
                             onClick={() => startEditing(item.id)}
                         >
@@ -163,7 +165,10 @@ function ShoppingLists() {
                         data.length <
                             maxLists(userProfileData.profile_level) && (
                             <>
-                                <Button onClick={() => setCreating(true)}>
+                                <Button
+                                    className="btn-create"
+                                    onClick={() => setCreating(true)}
+                                >
                                     Create New
                                 </Button>
                                 <br />
