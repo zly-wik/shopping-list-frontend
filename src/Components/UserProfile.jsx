@@ -1,8 +1,8 @@
 import axios from "axios";
 import { useState } from "react";
+import { Link } from "react-router-dom";
 import {
     Button,
-    Dropdown,
     DropdownItem,
     DropdownMenu,
     DropdownToggle,
@@ -10,10 +10,10 @@ import {
     Input,
     UncontrolledDropdown,
 } from "reactstrap";
-import { API_URL, csrfToken } from "../Constants";
+import { API_URL, csrfToken, logout } from "../Constants";
 import useFetch from "../Hooks/useFetch";
 
-const UserProfile = () => {
+const UserProfile = ({ logoutCallback }) => {
     const { data, setData, isPending, error } = useFetch("/me");
     const [editing, setEditing] = useState(false);
     const [editedName, setEditedName] = useState("");
@@ -53,6 +53,7 @@ const UserProfile = () => {
                     <Form>
                         <input type="hidden" name="_token" value={csrfToken} />
                         <Input
+                            className="input-field"
                             bsSize="sm"
                             type="text"
                             defaultValue={data.display_name}
@@ -116,6 +117,19 @@ const UserProfile = () => {
         <div>
             <div className="error">{!isPending && error}</div>
             {!isPending && !error && profileData()}
+            <br />
+            {!isPending && !error && (
+                <Link
+                    to="/"
+                    className="btn-logout"
+                    onClick={() => {
+                        logoutCallback();
+                        logout();
+                    }}
+                >
+                    Logout
+                </Link>
+            )}
         </div>
     );
 };

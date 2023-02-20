@@ -2,19 +2,27 @@ import { Link } from "react-router-dom";
 
 function Navbar() {
     return (
-        <nav className="navbar">
-            <div className="menu">
-                <Link className="menu-button" to="/">
-                    Home
-                </Link>
-                <Link className="menu-button" to="/shoppinglists">
-                    Lists
-                </Link>
-                <Link className="menu-button" to="/me">
-                    My Profile
-                </Link>
+        <>
+            <div className="row">
+                {/* <span className="col-3"></span> */}
+                <nav className="navbar">
+                    <div className="menu">
+                        <Link className="col-6 col-s-12 menu-button" to="/">
+                            Home
+                        </Link>
+                        <Link
+                            className="col-6 col-s-12 menu-button"
+                            to="/shoppinglists"
+                        >
+                            Lists
+                        </Link>
+                    </div>
+                </nav>
             </div>
-        </nav>
+            <Link className=" col-3 col-s-3 profile-button" to="/me">
+                My Profile
+            </Link>
+        </>
     );
 }
 

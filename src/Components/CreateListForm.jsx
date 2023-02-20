@@ -1,4 +1,4 @@
-import { Button, Form, Input, Label } from "reactstrap";
+import { Button, Form, Input } from "reactstrap";
 import axios from "axios";
 
 import { API_URL, csrfToken } from "../Constants";
@@ -31,11 +31,13 @@ const CreateListForm = ({ onComplete }) => {
                 <input type="hidden" name="_token" value={csrfToken} />
                 <Input
                     type="text"
-                    className="title"
+                    className="input-field"
                     onChange={handleChange}
                     placeholder="title"
                 />
-                <Button type="submit">Create</Button>
+                <Button class-name="btn-create" type="submit">
+                    Create
+                </Button>
             </Form>
         </>
     );

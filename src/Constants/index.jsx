@@ -1,5 +1,6 @@
 import axios from "axios";
 import cookie from "react-cookies";
+import { Link } from "react-router-dom";
 
 export const API_URL = "http://localhost:8000/";
 
@@ -14,3 +15,7 @@ axios.interceptors.request.use(
         return Promise.reject(error);
     }
 );
+
+export const logout = () => {
+    sessionStorage.removeItem("access");
+};

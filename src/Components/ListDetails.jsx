@@ -76,6 +76,7 @@ const ListDetails = () => {
                 <Form onSubmit={handlePostItem}>
                     <input type="hidden" name="_token" value={csrfToken} />
                     <Input
+                        className="input-field"
                         type="text"
                         name="item"
                         placeholder="item name"
@@ -84,7 +85,7 @@ const ListDetails = () => {
                             setNewItem(event.target.value);
                         }}
                     />
-                    <Button type="submit" color="primary">
+                    <Button className="btn-create" type="submit">
                         New Item
                     </Button>
                 </Form>
@@ -94,8 +95,11 @@ const ListDetails = () => {
 
     return (
         <>
-            {!isPending && error}
-            {!isPending && !error && (
+            <div className="error">
+                {!isPending && error}
+                {!isPending && !error && requestError}
+            </div>
+            {!isPending && !error && !requestError && (
                 <>
                     {itemsCRUD()}
                     <br />
