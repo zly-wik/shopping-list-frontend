@@ -2,7 +2,7 @@
     background-color: #595a4a;
     color: #8FBB99;
     box-sizing: border-box;
-    overflow: hidden;
+    overflow-x: hidden;
 }
 
 .row {
@@ -21,6 +21,7 @@
       }
     body {
         margin-left: 15px;
+        overflow-y: auto;
     }
     .menu
     {
@@ -30,6 +31,7 @@
     }
     .menu-button
     {
+        overflow: hidden;
         float: left;
         text-decoration: none;
         text-align: center;
@@ -47,6 +49,7 @@
     }
     .menu-button:hover
     {
+        overflow: hidden;
         float: left;
         text-decoration: none;
         text-align: center;
@@ -129,6 +132,7 @@
         margin-left: 150px;
         margin-right: auto;
         width: 90%;
+        overflow-y: auto;
     }
     .menu
     {
@@ -237,6 +241,7 @@
         margin-left: auto;
         margin-right: auto;
         width: 650px;
+        overflow-y: auto;
     }
     .menu
     {
@@ -334,6 +339,7 @@
     margin-top: 30px;
     font-size: medium;
     width: 750px;
+    overflow: hidden;
 }
 
 .small-text
@@ -343,7 +349,6 @@
 
 .shopping-lists {
     margin: auto;
-    
     text-align: left;
 }
 
@@ -368,6 +373,7 @@
 
 .list-item {
     padding: 5px;
+    overflow: hidden;
 }
 
 .btn-create {

@@ -105,8 +105,6 @@ const UserProfile = ({ logoutCallback }) => {
                         <br />
                         Profile Level:&nbsp;<b>{data.profile_level}</b>
                         <br />
-                        Email:&nbsp;
-                        <b>{data.user}</b>
                     </div>
                 )}
             </>

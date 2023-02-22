@@ -10,7 +10,6 @@ import LoginForm from "./LoginForm";
 import ShoppingLists from "./ShoppingLists";
 import ListDetails from "./ListDetails";
 import UserProfile from "./UserProfile";
-import { setSelectionRange } from "@testing-library/user-event/dist/utils";
 
 function App() {
     const [isLoggedIn, setIsLoggedIn] = useState(
@@ -21,7 +20,12 @@ function App() {
         if (isLoggedIn) {
             return <></>;
         }
-        return <LoginForm onLoginSuccess={(val) => setIsLoggedIn(val)} />;
+        return (
+            <>
+                <Home />
+                <LoginForm onLoginSuccess={(val) => setIsLoggedIn(val)} />
+            </>
+        );
     };
 
     return (

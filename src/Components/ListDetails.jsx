@@ -14,6 +14,20 @@ const ListDetails = () => {
     const [newItem, setNewItem] = useState("");
     const [requestError, setRequestError] = useState(null);
 
+    const sendEmail = (event) => {
+        event.preventDefault();
+        axios
+            .get(`${API_URL}/checklists/${id}/send_email`)
+            .then((res) => {
+                if (res.status === 200) {
+                    alert("Email sent");
+                }
+            })
+            .catch((err) => {
+                alert(`Failed to send email: ${err.message}`);
+            });
+    };
+
     const handleDelete = (item_id) => {
         axios
             .delete(`${API_URL}checklists/${id}/items/${item_id}`)
@@ -31,7 +45,7 @@ const ListDetails = () => {
 
     const handleComplete = (item_id) => {
         axios
-            .patch(`${API_URL}checklists/${id}/items/${item_id}`, {
+            .patch(`${API_URL}checklists/${id}/items/${item_id}/`, {
                 done: true,
             })
             .then(() => {
@@ -89,6 +103,12 @@ const ListDetails = () => {
                         New Item
                     </Button>
                 </Form>
+                <Button
+                    className="secondary"
+                    onClick={(event) => sendEmail(event)}
+                >
+                    Send email
+                </Button>
             </div>
         );
     };
